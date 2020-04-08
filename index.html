@@ -8,102 +8,117 @@
 </head>
 
 <body>
+    <div class="container">
+        <h1>Sports Search</h1>
+        <div id="new_buttons"></div>
 
-    <button data-sports="set">volleyball</button>
-    <button data-sports="quarter">basketball</button>
-    <button data-sports="inning">baseball</button>
-    <button data-sports="match">soccer</button>
-    <button data-sports="period">hockey</button>
+        <form id="Sports-Form">
+            <label for="sport-input">find a sport</label>
+            <input type="text" id="sport-input"><br>
 
-    <div id="gifs-appear-here">
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        // Adding click event listen listener to all buttons
-        $("button").on("click", function () {
-            // Grabbing and storing the data-animal property value from the button
+            <input type="submit" id="add-sport" value="Search">
+        </form>
 
-            // var animal = $(this).attr("data-animal");
-            // var topics = $(this).attr("sports");
+        <button data-topics="volleyball">volleyball</button>
+    <button data-topics="basketball">basketball</button>
+    <button data-topics="baseball">baseball</button>
+    <button data-topics="soccer">soccer</button>
+    <button data-topics="hockey">hockey</button>
 
-            // var topics = [
-            //     'volleyball',
-            //     'basketball',
-            //     'baseball',
-            //     'soccer',
-            //     'hockey',
-            // ]
-            // console.log(topics.length)
+        <div id="for-gifs">
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
 
-            var volleyball = $(this).attr("data-sports");
-            var basketball = $(this).attr("data-sports");
-            // var baseball = $(this).attr("data-sports");
-            // var soccer = $(this).attr("data-sports");
-            // var hockey = $(this).attr("data-sports");
-            // Constructing a queryURL using the animal name
-            // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            //   animal + "&api_key=BkaUZZWcFij6J7AoQj3WtPb1R2p9O6V9&limit=10";
+            var topics = ["basketball", "baseball", "soccer", "volleyball", "hockey"];
 
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-                "volleyball" + "&api_key=vqoFRIlIYVJ6QdMAvi4DYQViKwjTleWw&limit=10";
+            function mySport() {
+                var sportName = $(this).attr("data-name");
+
+                alert(sportName);
+            }
+
+            function renderButtons() {
+
+                $("#new-buttons").empty();
+                for (var i = 0; i < topics.length; i++) {
+                    var news = $("<button>");
+                    news.addClass("sport");
+                    news.attr("data-name", topics[i]);
+                    news.text(topics[i]);
+                    $("#new-buttons").append(news);
+                }
+            }
+
+            $("#add-sport").on("click", function (event) {
+                event.preventDefault();
+                var sport = $("#sport-input").val().trim();
+
+                topics.push(sport);
+
+                renderButtons();
+
+            });
+
+            $(document).on("click", ".sport", mySport);
+
+            renderButtons();
 
 
-            var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-                "basketball" + "&api_key=vqoFRIlIYVJ6QdMAvi4DYQViKwjTleWw&limit=10";
 
-            // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            //     "baseball" + "&api_key=vqoFRIlIYVJ6QdMAvi4DYQViKwjTleWw&limit=10";
 
-            // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            //     "soccer" + "&api_key=vqoFRIlIYVJ6QdMAvi4DYQViKwjTleWw&limit=10";
 
-            // var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-            //     "hockey" + "&api_key=vqoFRIlIYVJ6QdMAvi4DYQViKwjTleWw&limit=10";
 
-            // Performing an AJAX request with the queryURL
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            })
-                // After data comes back from the request
-                .then(function (response) {
-                    console.log(queryURL);
 
-                    console.log(response);
-                    // storing the data from the AJAX request in the results variable
-                    var results = response.data;
 
-                    // Looping through each result item
-                    for (var i = 0; i < results.length; i++) {
 
-                        // Creating and storing a div tag
-                        var volleyballDiv = $("<div>");
-                        var basketballDiv = $("<div>");
-                        // var basketballDiv = $("<div>");
 
-                        // Creating a paragraph tag with the result item's rating
-                        var p = $("<p>").text("Rating: " + results[i].rating);
 
-                        // Creating and storing an image tag
-                        var volImage = $("<img>");
-                        var basImage = $("<img>");
-                        // var volleyballImage = $("<img>");
-                        // Setting the src attribute of the image to a property pulled off the result item
-                        volImage.attr("src", results[i].images.fixed_height.url);
-                        basImage.attr("src", results[i].images.fixed_height.url);
-                        // Appending the paragraph and image tag to the animalDiv
-                        volImage.append(p);
-                        volImage.append(volImage);
-                        basImage.append(p);
-                        basImage.append(volImage);
-                        // Prependng the volImage to the HTML page in the "#gifs-appear-here" div
-                        $("#gifs-appear-here").prepend(volImage);
-                        $("#gifs-appear-here").prepend(basImage);
-                    }
-                });
-        });
-    </script>
+
+
+
+
+
+            // Adding click event listen listener to all buttons
+            $("button").on("click", function () {
+
+                // Grabbing and storing the data-animal property value from the button
+                var topics = $(this).attr("data-topics");
+
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+                    topics + "&api_key=vqoFRIlIYVJ6QdMAvi4DYQViKwjTleWw&limit=10";
+
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+                    // After data comes back from the request
+                    .then(function (response) {
+                        console.log(queryURL);
+
+                        console.log(response);
+                        // storing the data from the AJAX request in the results variable
+                        var results = response.data;
+
+                        // Looping through each result item
+                        for (var i = 0; i < results.length; i++) {
+
+                            // Creating and storing a div tag
+                            var topicsDiv = $("<div>");
+                            var p = $("<p>").text("Rating: " + results[i].rating);
+
+                            // Creating and storing an image tag
+                            var topicsImage = $("<img>");
+                            topicsImage.attr("src", results[i].images.fixed_height.url);
+                            topicsDiv.append(p);
+                            topicsDiv.append(topicsImage);
+                            $("#for-gifs").prepend(topicsDiv);
+                        }
+                    });
+            });
+        </script>
 
 </body>
+</div>
 
 </html>
